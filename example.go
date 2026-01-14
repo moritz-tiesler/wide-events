@@ -12,9 +12,11 @@ func HandleCheckout(w http.ResponseWriter, r *http.Request) {
 	// Add business context as it becomes available
 	userID := "user_456"
 	Record(ctx,
-		slog.String("user.id", userID),
-		slog.String("user.tier", "premium"),
-		slog.Int("cart.item_count", 3),
+		slog.Group("user",
+			slog.String("user.id", userID),
+			slog.String("user.tier", "premium"),
+			slog.Int("cart.item_count", 3),
+		),
 	)
 
 	err := processPayment(ctx)

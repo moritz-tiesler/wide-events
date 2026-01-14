@@ -53,7 +53,6 @@ func WideEventMiddleware(next http.Handler) http.Handler {
 			slog.String("method", r.Method),
 			slog.String("path", r.URL.Path),
 			slog.String("request_id", r.Header.Get("X-Request-ID")),
-			slog.Group()
 		)
 
 		// Create a custom response writer to capture status code
