@@ -53,12 +53,17 @@ func WideEventMiddleware(next http.Handler) http.Handler {
 			slog.String("method", r.Method),
 			slog.String("path", r.URL.Path),
 			slog.String("request_id", r.Header.Get("X-Request-ID")),
+			slog.Group()
 		)
 
 		// Create a custom response writer to capture status code
 		sw := &statusWriter{ResponseWriter: w, statusCode: http.StatusOK}
 
+		// To emit log line:
+		slog.LogAttrs(ctx, slog.LevelInfo, "request_completed", event.attrs...)
+
 		next.ServeHTTP(sw, r.WithContext(ctx))
+
 	})
 }
 
